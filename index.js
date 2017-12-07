@@ -6,7 +6,7 @@
  * @copyright 2014 Michael Cohen
  */
 
-var request = require('request'),
+var request = require('requestretry'),
     uuid    = require('uuid'),
     debug   = require('request-debug'),
     util    = require('util'),
