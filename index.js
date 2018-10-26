@@ -6,7 +6,7 @@
  * @copyright 2014 Michael Cohen
  */
 
-var request = require('request'),
+var request = require('requestretry'),
     uuid    = require('uuid'),
     debug   = require('request-debug'),
     util    = require('util'),
@@ -2087,14 +2087,16 @@ module.request = function(context, verb, options, entity, callback) {
     url = options.url
   }
   var opts = {
-    url:     url,
-    qs:      options.qs || {},
-    headers: options.headers || {},
-    json:    true
+    url:          url,
+    qs:           options.qs || {},
+    headers:      options.headers || {},
+    agentOptions: options.agentOptions || {},
+    json:         true
   }
   opts.qs.minorversion = opts.qs.minorversion || context.minorversion;
   opts.headers['User-Agent'] = 'node-quickbooks: version ' + version
   opts.headers['Request-Id'] = uuid.v1()
+  opts.agentOptions['secureProtocol'] = 'TLSv1.2'
   opts.qs.format = 'json';
   if (context.oauthversion == '2.0'){
       opts.headers['Authorization'] =  'Bearer ' + context.token
